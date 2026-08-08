@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 6%;
+    --foreground: 210 30% 94%;
+    --card: 222 40% 10%;
+    --card-foreground: 210 30% 94%;
+    --primary: 224 90% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 30% 16%;
+    --secondary-foreground: 210 30% 94%;
+    --muted: 222 30% 14%;
+    --muted-foreground: 215 16% 62%;
+    --accent: 168 76% 45%;
+    --accent-foreground: 222 47% 6%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 62% 45%;
+    --success-foreground: 222 47% 6%;
+    --border: 222 26% 20%;
+    --input: 222 26% 20%;
+    --ring: 224 90% 62%;
+    --radius: 0.75rem;
+  }
+
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background-image: radial-gradient(900px 500px at 12% -10%, hsl(224 90% 62% / 0.16), transparent 60%),
+                      radial-gradient(700px 400px at 100% 0%, hsl(168 76% 45% / 0.12), transparent 55%);
+    background-attachment: fixed;
+  }
+}

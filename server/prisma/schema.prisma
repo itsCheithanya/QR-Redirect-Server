@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  passwordHash String
+  role         Role       @default(EDITOR)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  redirects    Redirect[]
+}
+
+model Redirect {
+  id             String    @id @default(uuid())
+  path           String    @unique
+  destinationUrl String
+  title          String?
+  qrImagePath    String?
+  enabled        Boolean   @default(true)
+  scanCount      Int       @default(0)
+  passwordHash   String?
+  expiresAt      DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  createdById String?
+  createdBy   User?   @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  scans ScanEvent[]
+
+  @@index([enabled])
+}
+
+model ScanEvent {
+  id         String   @id @default(uuid())
+  redirectId String
+  redirect   Redirect @relation(fields: [redirectId], references: [id], onDelete: Cascade)
+  visitorId  String
+  ipHash     String?
+  country    String?
+  device     String?
+  os         String?
+  browser    String?
+  referer    String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([redirectId, createdAt])
+  @@index([visitorId])
+}
